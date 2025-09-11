@@ -1,0 +1,44 @@
+# Offline Configuration for PurgeProof
+# This configuration optimizes PurgeProof for offline/air-gapped environments
+
+# Network and connectivity settings
+network:
+  offline_mode: true
+  disable_updates: true
+  local_certificate_validation: true
+  network_timeout: 5  # Short timeout for offline detection
+
+# Offline operation preferences
+offline:
+  cache_certificates: true
+  local_verification_only: true
+  embedded_help: true
+  standalone_mode: true
+  
+# Hardware detection for offline use
+hardware:
+  use_cached_drivers: true
+  fallback_detection: true
+  offline_device_db: true
+  minimal_dependencies: true
+
+# Certificate generation for offline
+certificates:
+  offline_signing: true
+  local_timestamp: true
+  embedded_ca: true
+  portable_format: true
+
+# Logging for offline environments
+logging:
+  local_only: true
+  embedded_logs: true
+  no_remote_reporting: true
+  detailed_offline_logs: true
+
+# Security for air-gapped environments
+security:
+  paranoid_mode: true
+  verify_integrity: true
+  no_external_deps: true
+  isolated_operation: true
