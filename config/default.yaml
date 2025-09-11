@@ -1,0 +1,357 @@
+# PurgeProof Configuration File
+# 
+# This file contains default configuration settings for PurgeProof.
+# Copy this file to ~/.purgeproof/config.yaml to customize settings.
+#
+# Configuration sections:
+# - general: General application settings
+# - sanitization: Sanitization method preferences
+# - verification: Verification settings
+# - certificates: Certificate generation settings
+# - security: Security and cryptographic settings
+# - logging: Logging configuration
+# - gui: GUI interface settings
+# - platform: Platform-specific settings
+
+# General application settings
+general:
+  # Application information
+  name: "PurgeProof"
+  version: "1.0.0"
+  
+  # Default working directory for temporary files
+  temp_directory: null  # null = use system temp
+  
+  # Maximum concurrent operations
+  max_concurrent_operations: 1
+  
+  # Enable/disable features
+  features:
+    gui_enabled: true
+    cli_enabled: true
+    certificate_generation: true
+    remote_management: false
+    audit_logging: true
+
+# Sanitization method preferences
+sanitization:
+  # Default method selection
+  default_method: "auto"  # auto, crypto-erase, secure-erase, overwrite, etc.
+  
+  # Method priority order (used by auto selection)
+  method_priority:
+    - "crypto-erase"
+    - "nvme-sanitize" 
+    - "firmware-secure-erase"
+    - "overwrite-multi"
+    - "overwrite-single"
+  
+  # Overwrite patterns for overwrite methods
+  overwrite_patterns:
+    # Single pass patterns
+    single_pass:
+      - "random"
+      - "zeros"
+      - "ones"
+    
+    # Multi-pass patterns (DoD 5220.22-M)
+    multi_pass:
+      - "random"
+      - "complement"
+      - "random"
+  
+  # Gutmann method (35 passes)
+  gutmann_enabled: false
+  
+  # Timeout settings (seconds)
+  timeouts:
+    device_detection: 30
+    sanitization_per_gb: 60  # seconds per GB
+    verification_per_gb: 10  # seconds per GB
+  
+  # Force options
+  force_unmount: false
+  ignore_mount_checks: false
+  skip_safety_checks: false
+
+# Verification settings
+verification:
+  # Default verification level
+  default_level: "standard"  # basic, standard, thorough, forensic
+  
+  # Verification levels configuration
+  levels:
+    basic:
+      sample_count: 10
+      sample_size_kb: 4
+      entropy_threshold: 7.5
+    
+    standard:
+      sample_count: 100
+      sample_size_kb: 4
+      entropy_threshold: 7.8
+    
+    thorough:
+      sample_count: 1000
+      sample_size_kb: 8
+      entropy_threshold: 7.9
+    
+    forensic:
+      sample_count: 10000
+      sample_size_kb: 16
+      entropy_threshold: 7.95
+  
+  # Pattern detection settings
+  pattern_detection:
+    enabled: true
+    max_pattern_length: 1024
+    min_pattern_occurrences: 3
+  
+  # Statistical analysis
+  statistical_analysis:
+    chi_square_test: true
+    compression_ratio_test: true
+    frequency_analysis: true
+
+# Certificate generation settings
+certificates:
+  # Default output formats
+  default_formats:
+    - "json"
+    - "pdf"
+  
+  # Output directory (relative to user home or absolute path)
+  output_directory: "~/Documents/PurgeProof/Certificates"
+  
+  # Certificate template settings
+  templates:
+    # Organization information
+    organization:
+      name: "Your Organization"
+      department: "IT Security"
+      address: "123 Main St, City, State, ZIP"
+      contact: "security@yourorg.com"
+    
+    # Certificate branding
+    branding:
+      logo_path: null  # Path to organization logo
+      watermark: "CONFIDENTIAL"
+      color_scheme: "professional"  # professional, high-contrast, minimal
+  
+  # Digital signature settings
+  digital_signatures:
+    enabled: true
+    default_algorithm: "rsa-2048"  # rsa-2048, rsa-4096, ecdsa-p256, ecdsa-p384
+    include_timestamp: true
+    include_qr_code: true
+  
+  # PDF generation settings
+  pdf:
+    page_size: "letter"  # letter, a4, legal
+    include_technical_details: true
+    include_verification_charts: true
+    watermark_enabled: true
+
+# Security and cryptographic settings
+security:
+  # Key management
+  key_management:
+    key_storage_path: "~/.purgeproof/keys"
+    key_rotation_days: 365
+    backup_keys: true
+    secure_delete_old_keys: true
+  
+  # Cryptographic algorithms
+  crypto_algorithms:
+    # Hash algorithms
+    hash_algorithms:
+      primary: "sha256"
+      secondary: "sha3-256"
+    
+    # Signature algorithms
+    signature_algorithms:
+      - "rsa-2048"
+      - "rsa-4096"
+      - "ecdsa-p256"
+      - "ecdsa-p384"
+    
+    # Random number generation
+    rng_source: "system"  # system, hardware, hybrid
+  
+  # Audit and compliance
+  audit:
+    log_all_operations: true
+    include_device_serial: true
+    include_user_info: true
+    retention_days: 2555  # 7 years
+  
+  # Access control
+  access_control:
+    require_confirmation: true
+    double_confirmation_for_system_drives: true
+    password_protect_certificates: false
+
+# Logging configuration
+logging:
+  # Log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log output destinations
+  destinations:
+    console: true
+    file: true
+    syslog: false
+  
+  # File logging settings
+  file_logging:
+    log_directory: "~/.purgeproof/logs"
+    max_file_size_mb: 10
+    max_files: 10
+    rotation: "daily"  # daily, weekly, size-based
+  
+  # Log format
+  format: "[%(asctime)s] %(name)s - %(levelname)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
+  
+  # Security logging
+  security_events:
+    log_failed_operations: true
+    log_permission_errors: true
+    log_suspicious_activity: true
+
+# GUI interface settings
+gui:
+  # Default interface
+  default_interface: "auto"  # auto, tkinter, pyqt6
+  
+  # Window settings
+  window:
+    width: 1200
+    height: 800
+    resizable: true
+    center_on_screen: true
+  
+  # Theme settings
+  theme:
+    style: "system"  # system, light, dark, professional
+    color_scheme: "blue"  # blue, green, red, purple, gray
+    font_family: "system"
+    font_size: 10
+  
+  # Behavior settings
+  behavior:
+    confirm_exit_during_operation: true
+    auto_refresh_devices: true
+    show_advanced_options: false
+    remember_window_position: true
+  
+  # Progress display
+  progress:
+    show_eta: true
+    show_transfer_rate: true
+    update_interval_ms: 500
+
+# Platform-specific settings
+platform:
+  # Windows-specific settings
+  windows:
+    # WMI settings
+    wmi:
+      enabled: true
+      timeout_seconds: 30
+    
+    # PowerShell settings
+    powershell:
+      execution_policy_check: true
+      use_core_powershell: false
+    
+    # Device detection
+    device_detection:
+      use_wmi: true
+      use_diskpart: true
+      include_virtual_drives: false
+  
+  # Linux-specific settings
+  linux:
+    # Required utilities
+    utilities:
+      hdparm_path: "/sbin/hdparm"
+      nvme_cli_path: "/usr/sbin/nvme"
+      smartctl_path: "/usr/sbin/smartctl"
+      lsblk_path: "/bin/lsblk"
+    
+    # Device detection
+    device_detection:
+      scan_proc_partitions: true
+      scan_sys_block: true
+      include_loop_devices: false
+      include_ram_disks: false
+    
+    # Permissions
+    permissions:
+      require_sudo: true
+      check_device_permissions: true
+  
+  # macOS-specific settings
+  darwin:
+    # Disk utility settings
+    diskutil:
+      path: "/usr/sbin/diskutil"
+      use_secure_erase: true
+    
+    # Device detection
+    device_detection:
+      use_diskutil: true
+      use_ioreg: true
+      include_disk_images: false
+
+# Enterprise settings (for commercial deployments)
+enterprise:
+  # License management
+  license:
+    type: "community"  # community, professional, enterprise
+    organization: null
+    expiry_date: null
+  
+  # Central management
+  management:
+    enabled: false
+    server_url: null
+    api_key: null
+    reporting_interval_hours: 24
+  
+  # Compliance reporting
+  compliance:
+    generate_audit_reports: true
+    include_device_inventory: true
+    report_format: "json"  # json, xml, csv
+    retention_policy: "7_years"
+  
+  # Batch operations
+  batch:
+    enabled: true
+    max_concurrent_devices: 4
+    continue_on_error: false
+    generate_summary_report: true
+
+# Development and debugging settings
+development:
+  # Debug options
+  debug:
+    enabled: false
+    verbose_logging: false
+    save_debug_info: false
+    include_stack_traces: true
+  
+  # Testing options
+  testing:
+    mock_devices: false
+    simulate_operations: false
+    fast_verification: false
+    skip_confirmations: false
+  
+  # Performance monitoring
+  performance:
+    profile_operations: false
+    measure_timing: false
+    log_performance_metrics: false
