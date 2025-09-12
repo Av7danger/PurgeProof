@@ -61,7 +61,7 @@ USB Drive Structure:
 └── purgeproof/            # Main application
     ├── offline_launcher.py
     ├── cli_working.py
-    ├── wipeit/
+    ├── purgeproof/
     ├── config/
     └── docs/
 ```

@@ -15,8 +15,8 @@ from unittest.mock import Mock, patch, MagicMock
 import tempfile
 from pathlib import Path
 
-# Add wipeit package to path
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'wipeit'))
+# Add purgeproof package to path
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'purgeproof'))
 
 try:
     from core.device_utils import DeviceDetector, DeviceInfo

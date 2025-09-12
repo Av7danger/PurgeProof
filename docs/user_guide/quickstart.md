@@ -2,77 +2,98 @@
 
 ## Installation and Setup
 
-### 1. Install Dependencies
+### 1. Quick Installation
 
 ```bash
-# Install core dependencies
-pip install cryptography psutil pyserial reportlab qrcode Pillow click colorama
+# Clone repository
+git clone https://github.com/Av7danger/PurgeProof.git
+cd PurgeProof
 
-# Optional: Install PyQt6 for modern GUI
-pip install PyQt6 PyQt6-tools
+# Install with pip (recommended)
+pip install -e .
 
-# Windows-specific dependencies (optional, for enhanced device detection)
-pip install pywin32 wmi
+# Or install with specific features
+pip install -e .[gui]  # With GUI support
+pip install -e .[dev]  # With development tools
 ```
 
-### 2. Platform Requirements
+### 2. Alternative Installation
+
+```bash
+# Install dependencies manually
+pip install -r requirements.txt
+
+# Run setup script
+python setup.py
+
+# Build Rust engine (if needed)
+cd engine
+cargo build --release
+```
+
+### 3. Platform Requirements
 
 **Windows:**
 - Run as Administrator for full device access
-- PowerShell execution policy may need adjustment
+- Python 3.8+ with pip
 
 **Linux:**
-- Install system utilities: `sudo apt install hdparm nvme-cli gparted smartmontools`
+- Install system utilities: `sudo apt install hdparm nvme-cli smartmontools`
 - Run with sudo for device access
 
-**Android (via ADB):**
-- Install ADB tools and enable developer mode
+**macOS:**
+**macOS:**
+
+- Basic diskutil support (in development)
 
 ## Quick Start
 
-### Using the Launcher (Recommended)
+### Using PurgeProof (Recommended)
 
 ```bash
 # Auto-detect best interface
-python launcher.py
+purgeproof
 
 # Force specific interface
-python launcher.py --cli          # Command line
-python launcher.py --tkinter      # Simple GUI
-python launcher.py --pyqt         # Modern GUI
+purgeproof --cli          # Command line
+purgeproof --tkinter      # Simple GUI
+purgeproof --pyqt         # Modern GUI
 
 # Check available interfaces
-python launcher.py --check
+purgeproof --check
 ```
 
 ### Direct CLI Usage
 
 ```bash
 # List storage devices
-python launcher.py --cli list-devices
+purgeproof list-devices
 
 # Sanitize a device (DESTRUCTIVE!)
-python launcher.py --cli sanitize --device "/dev/sdb" --method "crypto-erase"
+purgeproof sanitize --device "/dev/sdb" --method "crypto-erase"
 
 # Verify sanitization
-python launcher.py --cli verify --device "/dev/sdb" --level "standard"
+purgeproof verify --device "/dev/sdb" --level "standard"
 
 # Generate certificate
-python launcher.py --cli certificate --device "/dev/sdb" --format "pdf"
+purgeproof certificate --device "/dev/sdb" --format "pdf"
 ```
 
 ## GUI Usage
 
 1. **Device Selection:**
+
    - Click "Refresh Devices" to scan for storage devices
    - Select target device from dropdown
 
 2. **Configure Options:**
+
    - Choose sanitization method (auto-recommended)
    - Set verification level (standard recommended)
    - Enable/disable certificate generation
 
 3. **Safety Checks:**
+
    - Review device information carefully
    - Ensure you have proper authorization
    - Confirm all data will be permanently destroyed
@@ -104,6 +125,7 @@ python launcher.py --cli certificate --device "/dev/sdb" --format "pdf"
 ## Advanced Usage
 
 ### Configuration Files
+
 ```bash
 # Create custom configuration
 mkdir ~/.purgeproof
@@ -111,19 +133,13 @@ cp config/default.yaml ~/.purgeproof/config.yaml
 ```
 
 ### Enterprise Deployment
+
 ```bash
 # Batch sanitization
-python launcher.py --cli batch --config "enterprise.yaml"
+purgeproof batch --config "enterprise.yaml"
 
 # Audit reporting
-python launcher.py --cli audit --output "audit-report.json"
-```
-
-### Bootable ISO Creation
-```bash
-# Build bootable sanitization environment
-cd bootable
-./build-iso.sh
+purgeproof audit --output "audit-report.json"
 ```
 
 ## Safety Guidelines
@@ -141,22 +157,26 @@ cd bootable
 ### Common Issues
 
 **"WMI not available" on Windows:**
+
 ```bash
 pip install pywin32 wmi
 ```
 
 **Permission denied errors:**
+
 - Windows: Run as Administrator
 - Linux: Use sudo
 - macOS: Grant Full Disk Access permission
 
 **Device not detected:**
+
 - Check device connections
 - Verify device is not mounted/in use
 - Try refreshing device list
 - Check platform-specific tools are installed
 
 **Sanitization fails:**
+
 - Unmount all file systems on the device
 - Close any applications using the device
 - Check device health with SMART tools
@@ -171,23 +191,25 @@ pip install pywin32 wmi
 
 ## File Structure Reference
 
-```
+```text
 PurgeProof/
-├── launcher.py              # Main launcher script
-├── wipeit/                  # Core application package
-│   ├── core/               # Core sanitization engine
-│   ├── gui/                # GUI interfaces
-│   ├── cli.py              # Command-line interface
-│   └── requirements.txt    # Python dependencies
-├── bootable/               # Bootable ISO components
-├── tests/                  # Test suite
-├── docs/                   # Documentation
-└── config/                 # Configuration templates
+├── purgeproof/             # Core application package
+│   ├── core/              # Core sanitization engine
+│   ├── gui/               # GUI interfaces
+│   ├── cli.py             # Command-line interface
+│   └── __init__.py        # Package initialization
+├── engine/                # Rust engine components
+├── tests/                 # Test suite
+├── docs/                  # Documentation
+├── config/                # Configuration templates
+├── pyproject.toml         # Project configuration
+└── requirements.txt       # Python dependencies
 ```
 
 ## Legal and Compliance
 
 This tool is designed for legitimate data sanitization purposes. Users are responsible for:
+
 - Obtaining proper authorization before use
 - Compliance with local laws and regulations
 - Following organizational data handling policies
@@ -196,6 +218,7 @@ This tool is designed for legitimate data sanitization purposes. Users are respo
 ## Support
 
 For technical support, feature requests, or security vulnerabilities:
-- GitHub Issues: https://github.com/your-org/purgeproof/issues
-- Security Contact: security@purgeproof.com
-- Documentation: https://docs.purgeproof.com
+
+- [GitHub Issues](https://github.com/your-org/purgeproof/issues)
+- Security Contact: <security@purgeproof.com>
+- [Documentation](https://docs.purgeproof.com)

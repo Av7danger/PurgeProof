@@ -1,0 +1,57 @@
+Certificate Verification Results
+===============================
+
+Verification Timestamp: 2025-09-12T14:33:01Z
+Certificate Path: certs/sanitization_WD1234567890_crypto_erase_20250912_143215.json
+Public Key: keys/purgeproof_public.pem
+
+Digital Signature Validation:
+✓ Certificate signature valid (RSA-4096)
+✓ Signature algorithm supported
+✓ Public key verification successful
+✓ Certificate integrity confirmed
+
+Certificate Content Validation:
+✓ Certificate format valid (v2.1)
+✓ Certificate not expired
+✓ Required fields present
+✓ Timestamp within acceptable range
+
+Device Information Validation:
+✓ Device serial number format valid
+✓ Device identification matches expected format
+✓ Device type supported for method used
+✓ Hardware capabilities verified
+
+Method Execution Validation:
+✓ Sanitization method approved (crypto_erase)
+✓ Method appropriate for device type (SSD)
+✓ Execution parameters within specifications
+✓ Duration within expected range (1.768s)
+
+Compliance Standards Validation:
+✓ NIST SP 800-88 Rev.1 requirements met
+✓ DoD 5220.22-M compliance verified
+✓ Documentation completeness confirmed
+✓ Audit trail present and valid
+
+Verification Results Validation:
+✓ Entropy analysis passed (7.983 > 7.9 bits/byte)
+✓ Pattern detection results valid (0 patterns)
+✓ Statistical sampling adequate (1000 samples)
+✓ Confidence level acceptable (99.9%)
+
+Chain of Custody Validation:
+✓ Operator identification valid
+✓ Case identification present
+✓ Timestamps consistent and sequential
+✓ Audit trail complete
+
+Overall Verification Status: VALID
+Compliance Level: ENHANCED
+Trust Level: VERIFIED
+Risk Assessment: LOW
+
+Verification completed successfully.
+No issues or anomalies detected.
+Certificate suitable for audit and compliance purposes.

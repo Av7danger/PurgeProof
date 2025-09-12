@@ -1,0 +1,11 @@
+timestamp,operator_id,action,device_serial,method,compliance_level,status,certificate_path,notes
+2025-09-12T14:30:22Z,OPERATOR_001,device_scan,WD1234567890,N/A,N/A,completed,N/A,"Initial device detection and capability analysis"
+2025-09-12T14:30:35Z,OPERATOR_001,method_analysis,WD1234567890,N/A,enhanced,completed,N/A,"Smart method selection analysis performed"
+2025-09-12T14:31:45Z,OPERATOR_001,sanitization_start,WD1234567890,crypto_erase,enhanced,started,N/A,"Beginning crypto erase sanitization process"
+2025-09-12T14:32:15Z,OPERATOR_001,sanitization_complete,WD1234567890,crypto_erase,enhanced,success,certs/sanitization_WD1234567890_crypto_erase_20250912_143215.json,"Sanitization completed successfully in 1.768 seconds"
+2025-09-12T14:32:17Z,OPERATOR_001,certificate_generation,WD1234567890,crypto_erase,enhanced,completed,certs/sanitization_WD1234567890_crypto_erase_20250912_143215.json,"Digital certificate generated with RSA-4096 signature"
+2025-09-12T14:32:18Z,OPERATOR_001,pdf_generation,WD1234567890,crypto_erase,enhanced,completed,certs/sanitization_WD1234567890_crypto_erase_20250912_143215.pdf,"PDF compliance report generated"
+2025-09-12T14:33:01Z,OPERATOR_001,verification,WD1234567890,crypto_erase,enhanced,verified,certs/sanitization_WD1234567890_crypto_erase_20250912_143215.json,"Third-party certificate verification completed successfully"
+2025-09-12T14:34:00Z,ANALYST_001,forensic_testing,WD1234567890,crypto_erase,enhanced,started,N/A,"Beginning forensic recovery attempt testing"
+2025-09-12T15:15:30Z,ANALYST_001,forensic_complete,WD1234567890,crypto_erase,enhanced,verified,forensics/recovery_attempt_WD1234567890_crypto_erase_20250912_143400.md,"Forensic testing completed - no data recovery possible"
+2025-09-12T15:20:00Z,OPERATOR_001,evidence_archive,WD1234567890,crypto_erase,enhanced,completed,audit/evidence_pack_20250912_152000.tar.gz,"Evidence pack archived with SHA-256 integrity hash"

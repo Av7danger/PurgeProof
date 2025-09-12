@@ -3,11 +3,11 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wipeit"
-version = "0.1.0"
-description = "Secure data wiping utility with verification"
+name = "purgeproof"
+version = "2.1.0"
+description = "Enterprise-grade data sanitization solution with hybrid Rust/Python architecture"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "PurgeProof Team", email = "contact@purgeproof.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -15,12 +15,20 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: System Administrators",
+    "Topic :: Security",
+    "Topic :: System :: Systems Administration",
 ]
 
 dependencies = [
     "cryptography>=3.4",
     "pyyaml>=5.4",
     "click>=8.0",
+    "tkinter",
+    "tqdm>=4.60.0",
+    "colorama>=0.4.4",
+    "psutil>=5.8.0",
 ]
 
 [project.optional-dependencies]
@@ -30,10 +38,15 @@ dev = [
     "black>=21.0",
     "isort>=5.0",
     "mypy>=0.9",
+    "maturin>=1.0.0",
+]
+gui = [
+    "PyQt6>=6.0.0",
+    "PyQt6-tools>=6.0.0",
 ]
 
 [project.scripts]
-wipeit = "wipeit.cli.main:main"
+purgeproof = "purgeproof.cli:main"
 
 [tool.black]
 line-length = 88

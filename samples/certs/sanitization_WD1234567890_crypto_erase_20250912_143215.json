@@ -1,0 +1,70 @@
+{
+  "certificate_version": "2.1",
+  "certificate_id": "CERT_WD1234567890_20250912_143215",
+  "generation_timestamp": "2025-09-12T14:32:15Z",
+  "device_information": {
+    "serial_number": "WD1234567890",
+    "model": "WD Blue SSD 1TB", 
+    "manufacturer": "Western Digital",
+    "device_path": "/dev/sdb",
+    "size_bytes": 1000204886016,
+    "device_type": "SSD"
+  },
+  "sanitization_details": {
+    "method": "crypto_erase",
+    "compliance_level": "enhanced",
+    "security_objective": "compliance",
+    "start_timestamp": "2025-09-12T14:32:15.123Z",
+    "completion_timestamp": "2025-09-12T14:32:16.891Z",
+    "duration_seconds": 1.768,
+    "operator_id": "OPERATOR_001",
+    "case_id": "CASE_20250912_143022"
+  },
+  "compliance_validation": {
+    "nist_sp_800_88_rev1": {
+      "category": "PURGE",
+      "assurance_level": "ENHANCED", 
+      "validation_status": "PASS",
+      "requirements_met": [
+        "Method approved for device type",
+        "Verification performed",
+        "Documentation complete",
+        "Audit trail present"
+      ]
+    },
+    "dod_5220_22m": {
+      "classification": "APPROVED",
+      "validation_status": "PASS"
+    }
+  },
+  "verification_results": {
+    "entropy_analysis": {
+      "bits_per_byte": 7.983,
+      "status": "PASS",
+      "threshold": 7.9
+    },
+    "pattern_detection": {
+      "recoverable_patterns": 0,
+      "status": "PASS"
+    },
+    "statistical_sampling": {
+      "samples_tested": 1000,
+      "samples_passed": 1000,
+      "confidence_level": 99.9,
+      "status": "PASS"
+    }
+  },
+  "cryptographic_integrity": {
+    "signature_algorithm": "RSA-4096",
+    "hash_algorithm": "SHA-256",
+    "certificate_hash": "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+    "signature": "PLACEHOLDER_DIGITAL_SIGNATURE_BASE64_ENCODED_4096_BITS",
+    "public_key_fingerprint": "SHA256:abcd1234567890efgh",
+    "signature_timestamp": "2025-09-12T14:32:17Z"
+  },
+  "audit_trail": {
+    "certificate_generation_log": "logs/sanitization_WD1234567890_crypto_erase_20250912_143215.log",
+    "verification_log": "logs/verification_WD1234567890_crypto_erase_20250912_143301.log",
+    "chain_of_custody": "audit/chain_of_custody_WD1234567890_20250912_143022.md"
+  }
+}

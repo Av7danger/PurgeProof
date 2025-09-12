@@ -217,7 +217,7 @@ class PurgeProofTestRunner:
             # Add coverage if available
             try:
                 import pytest_cov
-                args.extend(['--cov=wipeit', '--cov-report=term-missing'])
+                args.extend(['--cov=purgeproof', '--cov-report=term-missing'])
             except ImportError:
                 pass
             

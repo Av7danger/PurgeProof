@@ -11,11 +11,11 @@
 ### 🏆 Key Highlights
 
 - ✅ **Complete NIST SP 800-88 Rev.1 Implementation** - All sanitization categories (Clear/Purge/Destroy)
-- ✅ **Production Ready** - 4,500+ lines of tested, professional code
-- ✅ **Cross-Platform** - Windows, Linux, Android with intelligent fallbacks
+- ✅ **Production Ready** - Hybrid Rust+Python architecture
+- ✅ **Cross-Platform** - Windows, Linux, macOS support
 - ✅ **Multiple Interfaces** - CLI, Simple GUI (tkinter), Modern GUI (PyQt6)
 - ✅ **Enterprise Security** - Digital signatures, tamper-proof certificates, audit trails
-- ✅ **Smart Launcher** - Auto-detects available frameworks and dependencies
+- ✅ **Smart Command** - Auto-detects available frameworks and dependencies
 
 ---
 
@@ -28,34 +28,32 @@
 git clone https://github.com/your-org/purgeproof.git
 cd PurgeProof
 
-# Install dependencies
-pip install cryptography psutil pyserial reportlab qrcode Pillow click colorama
+# Install with pip (recommended)
+pip install -e .
 
-# Optional: Install PyQt6 for modern GUI
-pip install PyQt6
-
-# Run the smart launcher
-python launcher.py
+# Or install with specific features
+pip install -e .[gui]  # With GUI support
+pip install -e .[dev]  # With development tools
 ```
 
 ### Usage Examples
 
 ```bash
 # Auto-detect best interface
-python launcher.py
+purgeproof
 
 # Force specific interfaces
-python launcher.py --cli          # Command line
-python launcher.py --tkinter      # Simple GUI  
-python launcher.py --pyqt         # Modern GUI
+purgeproof --cli          # Command line
+purgeproof --tkinter      # Simple GUI  
+purgeproof --pyqt         # Modern GUI
 
 # CLI operations
-python launcher.py --cli list-devices
-python launcher.py --cli sanitize --device "/dev/sdb" --method "crypto-erase"
-python launcher.py --cli verify --device "/dev/sdb" --level "standard"
+purgeproof list-devices
+purgeproof sanitize --device "/dev/sdb" --method "crypto-erase"
+purgeproof verify --device "/dev/sdb" --level "standard"
 
 # Check available interfaces
-python launcher.py --check
+purgeproof --check
 ```
 
 ---
@@ -98,50 +96,45 @@ python launcher.py --check
 
 ## 📁 Project Structure
 
-```
+```text
 PurgeProof/
-├── 🚀 launcher.py              # Smart launcher with framework detection
-├── 📖 QUICKSTART.md           # User guide and quick reference
-├── 📊 PROJECT_SUMMARY.md      # Technical implementation summary
-├── 🔧 install.py              # Automated installation script
-├── 📁 wipeit/                 # Main application package
-│   ├── 🎯 cli.py              # Command-line interface
-│   ├── 📋 requirements.txt    # Python dependencies
-│   ├── 📁 core/               # Core sanitization engine
-│   │   ├── 🔍 device_utils.py # Device detection & safety checks
-│   │   ├── 🛡️ wipe_engine.py  # NIST-compliant sanitization
-│   │   ├── ✅ verification.py # Verification & entropy analysis
-│   │   ├── 🔐 crypto_utils.py # Digital signatures & encryption
-│   │   └── 📜 certificates.py # Certificate generation
-│   └── 📁 gui/                # Graphical interfaces
-│       ├── 🖼️ main.py         # Tkinter simple interface
-│       └── ✨ gui_pyqt.py     # PyQt6 modern interface
-├── 📁 bootable/               # Bootable ISO creation scripts
-│   ├── 🐧 build-iso.sh       # Linux bootable environment
-│   └── 🪟 build-iso.bat      # Windows PE environment
-├── 📁 tests/                  # Comprehensive test suite
-├── 📁 config/                 # Configuration templates
-└── 📁 docs/                   # Documentation (planned)
+├── purgeproof/                  # Main application package
+│   ├── cli.py                   # Command-line interface
+│   ├── core/                    # Core sanitization engine
+│   │   ├── device_utils.py      # Device detection & safety checks
+│   │   ├── wipe_engine.py       # NIST-compliant sanitization
+│   │   ├── verification.py      # Verification & entropy analysis
+│   │   ├── crypto_utils.py      # Digital signatures & encryption
+│   │   └── certificates.py      # Certificate generation
+│   └── gui/                     # Graphical interfaces
+│       ├── main.py              # Tkinter simple interface
+│       └── gui_pyqt.py          # PyQt6 modern interface
+├── engine/                      # Rust engine components
+├── tests/                       # Comprehensive test suite
+├── config/                      # Configuration templates
+├── docs/                        # Documentation
+├── pyproject.toml               # Project configuration
+└── requirements.txt             # Python dependencies
 ```
 
 ---
 
 ## 🎮 Installation Options
 
-### 🔄 Automated Installation
+### 🔄 Current Installation
 
 ```bash
-# User installation (recommended)
-python install.py --user --gui
+# Install with pip (recommended)
+pip install -e .
 
-# System-wide installation (requires admin/sudo)
-sudo python install.py --system --gui
+# Install with GUI support
+pip install -e .[gui]
 
-# Development installation
-python install.py --dev --gui
+# Install development dependencies
+pip install -e .[dev]
 
 # Check installation status
-python install.py --check
+purgeproof --check
 ```
 
 ### 📦 Manual Installation
@@ -157,7 +150,7 @@ pip install PyQt6
 pip install pywin32 wmi
 
 # Test installation
-python launcher.py --check
+purgeproof --check
 ```
 
 ---
@@ -270,36 +263,37 @@ python launcher.py --check
 - **Tamper-Proof Certificates**: Digital signatures with JSON and PDF formats
 - **Device Type Detection**: HDDs, SSDs, NVMe, Encrypted SEDs, Mobile partitions
 - **Hidden Area Support**: HPA and DCO detection and removal
-- **Offline Capability**: Bootable ISO/USB for offline operations
+- **Offline Capability**: Standalone operation support
 - **Enterprise Ready**: Bulk operations and automation support
 
-## Installation
+## Alternative Installation
 
 ```bash
 git clone https://github.com/Av7danger/purgeproof.git
-cd purgeproof/wipeit
+cd PurgeProof
 pip install -r requirements.txt
 ```
 
-## Quick Start
+## Quick Reference
 
 ### GUI Mode
 
 ```bash
-python gui/main.py
+purgeproof --tkinter  # Simple GUI
+purgeproof --pyqt     # Modern GUI
 ```
 
 ### CLI Mode
 
 ```bash
 # List available devices
-python cli.py list-devices
+purgeproof list-devices
 
 # Wipe a device with automatic method selection
-python cli.py /dev/sda --method auto --output certs/
+purgeproof sanitize --device /dev/sda --method auto --output certs/
 
 # Verify a certificate
-python cli.py verify certs/cert.json
+purgeproof verify certs/cert.json
 ```
 
 ## Documentation

@@ -16,7 +16,7 @@ Test Categories:
 Usage:
     pytest tests/
     pytest tests/test_device_utils.py -v
-    pytest tests/ --cov=wipeit --cov-report=html
+    pytest tests/ --cov=purgeproof --cov-report=html
 """
 
 import os
@@ -27,8 +27,8 @@ import shutil
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
-# Add wipeit package to path
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'wipeit'))
+# Add purgeproof package to path
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'purgeproof'))
 
 # Test configuration
 TEST_DATA_DIR = Path(__file__).parent / "data"

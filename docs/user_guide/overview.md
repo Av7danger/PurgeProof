@@ -7,42 +7,48 @@ PurgeProof is a comprehensive, NIST SP 800-88 Rev.1 compliant data sanitization 
 ## 🎯 Project Status: **PRODUCTION READY** ✅
 
 **Complete Implementation Includes:**
+
 - ✅ Core sanitization engine with 6 NIST-compliant methods
-- ✅ Multi-platform support (Windows, Linux, Android via ADB)
-- ✅ Multiple interfaces: CLI, tkinter GUI, smart launcher
+- ✅ Multi-platform support (Windows, Linux, macOS)
+- ✅ Multiple interfaces: CLI, tkinter GUI, PyQt6 GUI
 - ✅ Digital certificates with RSA/ECDSA signatures
 - ✅ Comprehensive verification and audit logging
-- ✅ Bootable ISO creation for offline operations
 - ✅ Enterprise configuration management
-- ✅ Automated installation system
+- ✅ Hybrid Rust+Python architecture
 - ✅ Full test framework with pytest
 
 ## 🚀 Quick Start
 
-### Basic Usage (No Admin Required)
+### Basic Installation
+
 ```bash
-# Test system functionality
-python test_cli.py
+# Install PurgeProof
+pip install -e .
+
+# Run with auto-detected interface
+purgeproof
 
 # Check available interfaces
-python launcher.py --check
+purgeproof --check
 ```
 
 ### Full Operations (Admin Required)
+
 ```bash
 # Launch GUI interface
-python launcher.py --tkinter
+purgeproof --tkinter
 
 # Launch CLI interface  
-python launcher.py --cli
+purgeproof --cli
 
 # List storage devices
-python launcher.py --cli --list
+purgeproof list-devices
 ```
 
 ## 🏗️ Architecture
 
 ### Core Modules
+
 - **`device_utils.py`** - Cross-platform device detection and management
 - **`wipe_engine.py`** - NIST SP 800-88 Rev.1 sanitization implementation
 - **`verification.py`** - Post-sanitization verification and entropy analysis
@@ -50,16 +56,17 @@ python launcher.py --cli --list
 - **`certificates.py`** - Tamper-proof audit certificates
 
 ### Interface Options
-- **Smart Launcher** (`launcher.py`) - Auto-detects available interfaces
-- **CLI Interface** (`wipeit/cli/main.py`) - Complete command-line tool
-- **GUI Interface** (`wipeit/gui/main.py`) - tkinter-based graphical interface
-- **Modern GUI** (`wipeit/gui/gui_pyqt.py`) - PyQt6 interface (optional)
+
+- **Smart Command** (`purgeproof`) - Auto-detects available interfaces
+- **CLI Interface** (`purgeproof/cli.py`) - Complete command-line tool
+- **GUI Interface** (`purgeproof/gui.py`) - tkinter-based graphical interface
+- **Modern GUI** (`purgeproof/gui.py`) - PyQt6 interface (optional)
 
 ### Enterprise Features
-- **Bootable Systems** (`bootable/`) - Linux and Windows PE creation scripts
+
 - **Configuration** (`config/`) - YAML-based enterprise settings
 - **Testing** (`tests/`) - Comprehensive pytest framework
-- **Installation** (`install.py`) - Automated cross-platform deployment
+- **Rust Engine** (`engine/`) - High-performance sanitization core
 
 ## 🔧 Sanitization Methods
 
@@ -80,57 +87,67 @@ python launcher.py --cli --list
 - **Special:** Bootable Windows PE environment creation
 
 ### Linux
+### Windows
+
+- **Detection:** WMI integration with PowerShell fallbacks
+- **Methods:** All sanitization methods supported
+- **Special:** Enhanced device access with admin privileges
+
+### Linux
+
 - **Detection:** hdparm, nvme-cli, lsblk integration
 - **Methods:** All sanitization methods supported  
-- **Special:** Ubuntu-based bootable ISO creation
+- **Special:** Native system utility integration
 
-### Android (via ADB)
-- **Detection:** ADB device enumeration
-- **Methods:** Crypto erase, secure erase commands
-- **Special:** Remote mobile device sanitization
+### macOS
+
+- **Detection:** diskutil integration
+- **Methods:** Basic sanitization support
+- **Special:** In development for full feature parity
 
 ## 🛡️ Security Features
 
 ### Digital Certificates
+
 - **RSA/ECDSA** digital signatures for tamper-proof verification
 - **Timestamped** audit trails with operator identification
 - **Portable** certificate validation across systems
 
 ### Verification
+
 - **Entropy Analysis** - Statistical verification of randomness
 - **Read-back Testing** - Physical verification of data destruction
 - **Compliance Reporting** - NIST SP 800-88 Rev.1 compliance documentation
 
 ### Audit Logging
+
 - **Complete Traceability** - Full operation logging
 - **System Information** - Hardware and software fingerprinting  
 - **Chain of Custody** - Operator and timestamp tracking
 
 ## 📁 Project Structure
 
-```
+```text
 PurgeProof/
-├── 📁 wipeit/                   # Core package
-│   ├── 📁 core/                 # Core sanitization modules
+├── purgeproof/                  # Core package
+│   ├── core/                    # Core sanitization modules
 │   │   ├── device_utils.py      # Device detection
 │   │   ├── wipe_engine.py       # Sanitization engine
 │   │   ├── verification.py      # Verification system
 │   │   ├── crypto_utils.py      # Cryptographic utilities
 │   │   └── certificates.py      # Certificate management
-│   ├── 📁 cli/                  # Command-line interface
-│   │   └── main.py              # CLI implementation
-│   └── 📁 gui/                  # Graphical interfaces
+│   ├── cli.py                   # Command-line interface
+│   └── gui/                     # Graphical interfaces
 │       ├── main.py              # tkinter GUI
 │       └── gui_pyqt.py          # PyQt6 GUI
-├── 📁 bootable/                 # Bootable environment creation
-│   ├── build-iso.sh            # Linux ISO builder
-│   └── build-iso.bat           # Windows PE builder
-├── 📁 tests/                    # Test framework
+├── engine/                      # Rust engine components
+├── tests/                       # Test framework
 │   ├── conftest.py              # pytest configuration
 │   └── test_device_utils.py     # Device testing
-├── 📁 config/                   # Configuration management
-│   └── default.yaml            # Enterprise settings
-├── launcher.py                  # Smart launcher
+├── config/                      # Configuration management
+│   └── default.yaml             # Enterprise settings
+├── pyproject.toml               # Project configuration
+└── requirements.txt             # Python dependencies
 ├── install.py                   # Automated installer
 ├── test_cli.py                  # System test suite
 └── README.md                    # This file
@@ -229,17 +246,19 @@ python test_system.py
 ## 🚀 Deployment Options
 
 ### Standard Deployment
+
 - Install Python dependencies
-- Run `python launcher.py` for interactive use
+- Run `purgeproof` for interactive use
 - Configure via `config/default.yaml`
 
-### Enterprise Deployment  
-- Use `python install.py` for automated setup
-- Deploy bootable ISOs for offline operations
+### Enterprise Deployment
+
+- Use `pip install -e .` for automated setup
 - Integrate with existing IT infrastructure
 
 ### Portable Deployment
-- Create bootable USB with Linux/Windows PE
+
+- Create portable Python environments
 - Standalone operation without installed OS
 - Perfect for high-security environments
 

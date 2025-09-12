@@ -1,11 +1,11 @@
-# Contributing to WipeIt
+# Contributing to PurgeProof
 
-Thank you for your interest in contributing to WipeIt! Here's how you can help:
+Thank you for your interest in contributing to PurgeProof! Here's how you can help:
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/your-username/wipeit.git`
+2. Clone your fork: `git clone https://github.com/your-username/purgeproof.git`
 3. Create a new branch: `git checkout -b feature/your-feature-name`
 4. Set up the development environment:
    ```bash
@@ -35,7 +35,7 @@ pytest
 
 Run with coverage:
 ```bash
-pytest --cov=wipeit tests/
+pytest --cov=purgeproof tests/
 ```
 
 ## Pull Request Process

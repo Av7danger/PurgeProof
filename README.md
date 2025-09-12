@@ -1,16 +1,14 @@
 # 🔒 PurgeProof - Enterprise Data Sanitization Solution
 
-![PurgeProof Banner](docs/images/purgeproof_banner.png)
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![NIST Compliant](https://img.shields.io/badge/NIST-SP%20800--88%20Rev.1-green.svg)](https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final)
 [![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](#-production-ready-features)
-[![Platform Support](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20Android-blue.svg)](#-cross-platform-support)
+[![Platform Support](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-blue.svg)](#-cross-platform-support)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-> **Enterprise-grade NIST SP 800-88 Rev.1 compliant data sanitization with plug-and-play deployment capabilities**
+> **Enterprise-grade hybrid Rust+Python data sanitization with NIST SP 800-88 Rev.1 compliance and hardware acceleration**
 
-PurgeProof is a **battle-tested, production-ready data sanitization solution** that provides secure, compliant, and verifiable data destruction across multiple platforms. Built for enterprises, government agencies, and security professionals who require absolute data security with full regulatory compliance.
+PurgeProof is a **production-ready enterprise data sanitization solution** that combines a high-performance Rust engine with Python orchestration to deliver secure, compliant, and verifiable data destruction. Built for enterprises, government agencies, and security professionals who require maximum performance with full regulatory compliance.
 
 ---
 
@@ -41,31 +39,29 @@ Time Saved: 23 hours, 59 minutes, 58 seconds per drive!
 
 ## ⚡ **Quick Start**
 
-### **🚀 Option 1: Standard Installation**
-
-```powershell
-# Clone and auto-setup (Windows)
-git clone https://github.com/Av7danger/PurgeProof.git
-cd PurgeProof
-python launcher.py  # Smart launcher auto-detects best interface
-```
-
-### **🎯 Option 2: Plug-and-Play USB (Field Ready)**
+### **🚀 Installation**
 
 ```bash
-# Create bootable USB for on-site deployment
-build_usb.bat  # Windows - Run as Administrator
-# OR
-sudo python3 build_usb.py  # Linux/Mac
+# Clone the repository
+git clone https://github.com/Av7danger/PurgeProof.git
+cd PurgeProof
 
-# Deploy anywhere - no installation required!
+# Install with pip (recommended)
+pip install -e .
+
+# Or run setup script
+python setup.py
 ```
 
 ### **⚡ Quick Test**
 
 ```bash
-python launcher.py --cli list-devices  # Show available devices
-python launcher.py --check            # Verify all systems operational
+# Launch GUI interface
+purgeproof --gui
+
+# CLI usage
+purgeproof list           # Show available devices
+purgeproof --help         # Show all options
 ```
 
 ---
@@ -81,40 +77,41 @@ python launcher.py --check            # Verify all systems operational
 
 ### **⚡ Performance Excellence**
 
-- **🚀 Crypto Erase**: Complete SSD sanitization in under 2 seconds (99.9% faster than overwriting)
-- **⚡ Hardware Acceleration**: Native NVMe, SATA secure erase support
-- **🔧 Smart Selection**: Automatically recommends fastest method for your hardware
-- **📊 Real-time Progress**: Live monitoring with detailed status reporting
-- **⚠️ Legacy Support**: Slow overwrite methods available for old hardware/regulations
+- **🚀 Hybrid Architecture**: Rust engine for maximum performance with Python orchestration
+- **⚡ Hardware Acceleration**: Native NVMe, SATA secure erase, and crypto-erase support
+- **🔧 Smart Method Selection**: Automatically recommends optimal sanitization method
+- **📊 Real-time Monitoring**: Live progress tracking with detailed status reporting
+- **⚠️ Fallback Support**: Compatible overwrite methods for legacy hardware
 
 ### **🌐 Cross-Platform Support**
 
-- **Windows**: Full WMI integration, PowerShell automation, Windows PE bootable
-- **Linux**: Complete hdparm/nvme-cli support, Ubuntu-based live ISO
-- **Android**: ADB-based remote sanitization for mobile devices
+- **Windows**: Full device access with Administrator privileges
+- **Linux**: Complete hdparm/nvme-cli integration with sudo access  
+- **macOS**: Basic diskutil support (in development)
 - **Hybrid Environments**: Single solution for mixed enterprise infrastructures
 
 ---
 
 ## 🎮 **User Interfaces**
 
-PurgeProof adapts to your preferred workflow:
+PurgeProof provides flexible interface options:
 
 | **Interface** | **Best For** | **Features** |
 |---------------|--------------|--------------|
-| **🧠 Smart Launcher** | Auto-detection | Intelligently chooses best available interface |
-| **🖱️ GUI (tkinter)** | Desktop users | Intuitive point-and-click operation |
-| **💻 CLI** | Automation/scripts | Scriptable with full parameter control |
-| **📱 Mobile** | Android devices | ADB-based remote sanitization |
+| **🖱️ GUI** | Desktop users | Intuitive tkinter-based interface |
+| **💻 CLI** | Automation/scripts | Full command-line control |
+| **� Python API** | Integration | Programmatic access |
 
 ```bash
-# Let PurgeProof choose the best interface for you
-python launcher.py
+# GUI interface
+purgeproof --gui
 
-# Or force specific interface
-python launcher.py --gui     # Force GUI mode
-python launcher.py --cli     # Force CLI mode
-python launcher.py --mobile  # Android ADB mode
+# CLI interface  
+purgeproof list
+purgeproof sanitize /dev/sdb --method crypto-erase
+
+# Python API
+python -c "import purgeproof; print(purgeproof.scan_devices())"
 ```
 
 ---
@@ -188,52 +185,54 @@ python launcher.py --mobile  # Android ADB mode
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                 SMART LAUNCHER SYSTEM                      │
+│                 HYBRID ARCHITECTURE                        │
 ├─────────────────────────────────────────────────────────────┤
-│  Auto-Detection │ Framework Selection │ Graceful Fallbacks │
+│             PYTHON ORCHESTRATION LAYER                     │
 ├─────────────────────────────────────────────────────────────┤
-│                    USER INTERFACES                         │
+│   CLI Interface  │  GUI Interface  │  API Interface       │
 ├─────────────────────────────────────────────────────────────┤
-│   GUI (tkinter)  │  CLI Interface  │  Mobile (ADB)        │
+│              FFI BRIDGE (PyO3)                            │
 ├─────────────────────────────────────────────────────────────┤
-│                CORE SANITIZATION ENGINE                    │
+│                RUST ENGINE CORE                           │
 ├─────────────────────────────────────────────────────────────┤
-│ Device Detection │ Wipe Engine │ Verification │ Certificates│
+│ Device Detection │ Sanitization │ Verification │ Parallel │
 ├─────────────────────────────────────────────────────────────┤
 │                 PLATFORM ABSTRACTION                       │
 ├─────────────────────────────────────────────────────────────┤
-│   Windows (WMI)  │  Linux (hdparm)  │  Android (ADB)      │
+│   Windows (WMI)  │  Linux (hdparm)  │  macOS (diskutil)   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 **Field Deployment**
+## 🚀 **Installation & Setup**
 
-### **Plug-and-Play USB Creation**
+### **Prerequisites**
+
+- **Python**: 3.8+ (with pip)
+- **Rust**: Latest stable (for building native engine)
+- **Privileges**: Administrator (Windows) or root (Linux) access
+
+### **Quick Installation**
 
 ```bash
-# Windows - creates bootable USB in 2-5 minutes
-build_usb.bat
+# Standard installation
+pip install -e .
 
-# Cross-platform advanced builder
-python build_usb.py
+# Development installation
+pip install -e .[dev]
+
+# With GUI support
+pip install -e .[gui]
 ```
 
-### **USB Deployment Process**
+### **Build Native Engine**
 
-1. **🔧 Build USB**: One-time setup using builder scripts
-2. **📦 Deploy**: Insert USB into any target computer
-3. **⚡ Execute**: Run platform-specific launcher
-4. **🔐 Sanitize**: Follow guided prompts for secure data destruction
-5. **📋 Document**: Automatic compliance certificate generation
-
-### **Field Capabilities**
-
-- **✅ No Installation Required**: Works immediately on any system
-- **✅ Offline Operation**: Perfect for air-gapped environments
-- **✅ Cross-Platform**: Single USB works on Windows, Linux, Mac
-- **✅ Enterprise Ready**: Professional documentation and audit trails
+```bash
+# Build Rust engine (automatic during pip install)
+cd engine
+cargo build --release
+```
 
 ---
 
@@ -267,11 +266,10 @@ python build_usb.py
 
 | **Platform** | **Status** | **Features** |
 |--------------|------------|--------------|
-| **Windows 10/11** | ✅ Full Support | WMI, PowerShell, Windows PE |
-| **Ubuntu 20.04+** | ✅ Full Support | hdparm, nvme-cli, live ISO |
+| **Windows 10/11** | ✅ Full Support | Device enumeration, hardware acceleration |
+| **Ubuntu 20.04+** | ✅ Full Support | hdparm, nvme-cli integration |
 | **RHEL/CentOS 8+** | ✅ Compatible | Standard Linux tools |
-| **Android 8+** | ✅ Remote Support | ADB-based sanitization |
-| **macOS** | 🔄 In Testing | Basic diskutil support |
+| **macOS 10.14+** | 🔄 In Development | Basic diskutil support |
 
 ---
 
@@ -305,17 +303,14 @@ We welcome contributions from the cybersecurity community!
 ```bash
 git clone https://github.com/Av7danger/PurgeProof.git
 cd PurgeProof
-python -m venv venv
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
-pip install -r requirements.txt
+pip install -e .[dev]
 ```
 
 ### **Testing**
 
 ```bash
-python -m pytest tests/  # Run full test suite
-python launcher.py --check  # Verify installation
+pytest tests/              # Run test suite
+python setup.py --test     # Verify installation
 ```
 
 See our **[Contributing Guide](docs/developer_guide/contributing.md)** for detailed development guidelines.
@@ -344,9 +339,9 @@ PurgeProof is designed for legitimate data sanitization purposes. Users are resp
 
 **Ready to revolutionize your data sanitization process?**
 
-1. **⚡ Quick Test**: `git clone` → `python launcher.py --check`
-2. **🚀 Build USB**: Run `build_usb.bat` for instant field deployment
-3. **📋 Enterprise**: Review [compliance documentation](docs/compliance/) for audit readiness
+1. **⚡ Quick Start**: `git clone` → `pip install -e .` → `purgeproof --gui`
+2. **📋 Enterprise**: Review [compliance documentation](docs/COMPLIANCE.md) for audit readiness
+3. **🏗️ Development**: Check [developer guide](docs/developer_guide/) for integration
 4. **🤝 Support**: Join our community or contact enterprise support
 
 **Transform your data security with PurgeProof - the complete enterprise data sanitization solution.** 🔒

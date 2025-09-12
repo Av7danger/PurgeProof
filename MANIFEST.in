@@ -1,10 +1,11 @@
 include README.md
-include LICENSE
 include requirements.txt
+include requirements-dev.txt
 recursive-include docs *
 recursive-include config *
-recursive-include wipeit/gui *
+recursive-include purgeproof *
+recursive-include engine *
 recursive-include tests *
-prune docs/build
 prune .github
 prune .git
+prune .venv
