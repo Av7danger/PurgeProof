@@ -1,5 +1,20 @@
-cryptography>=3.4
-pyyaml>=5.4
-click>=8.0
-tqdm>=4.0.0
+# PurgeProof Core Dependencies
+cryptography>=41.0.0
+pyyaml>=6.0
+click>=8.1.0
+tqdm>=4.65.0
 psutil>=5.9.0
+colorama>=0.4.6
+
+# Enhanced Features
+pycryptodome>=3.18.0
+requests>=2.31.0
+
+# Development Dependencies (optional)
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Build Dependencies (for Rust integration)
+maturin>=1.0.0

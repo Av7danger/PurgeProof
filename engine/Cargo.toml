@@ -1,0 +1,132 @@
+[package]
+name = "purgeproof-engine"
+version = "2.1.0"
+edition = "2021"
+authors = ["PurgeProof Development Team"]
+description = "High-performance hybrid engine for enterprise data sanitization with NIST SP 800-88 compliance"
+license = "MIT"
+repository = "https://github.com/Av7danger/PurgeProof"
+readme = "README.md"
+keywords = ["security", "data-sanitization", "cryptography", "performance", "enterprise"]
+categories = ["cryptography", "hardware-support", "command-line-utilities"]
+
+[lib]
+name = "purgeproof_engine"
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+# Python FFI
+pyo3 = { version = "0.20", features = ["extension-module", "abi3-py38"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Parallel processing
+rayon = "1.8"
+num_cpus = "1.16"
+
+# Cryptography with hardware acceleration
+aes = { version = "0.8", features = ["hazmat"] }
+sha2 = "0.10"
+blake3 = { version = "1.5", features = ["rayon"] }
+chacha20poly1305 = "0.10"
+pbkdf2 = "0.12"
+
+# Secure memory management
+zeroize = { version = "1.7", features = ["zeroize_derive"] }
+
+# Random number generation
+rand = { version = "0.8", features = ["getrandom"] }
+rand_chacha = "0.3"
+
+# Hash functions
+twox-hash = "1.6"
+
+# Memory mapping for large files
+memmap2 = "0.9"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Platform-specific dependencies
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+nix = "0.27"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = [
+    "fileapi", "handleapi", "winnt", "errhandlingapi", 
+    "sysinfoapi", "winioctl", "ioapiset", "processthreadsapi"
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.9"
+io-kit-sys = "0.4"
+
+# Performance and optimization features
+[features]
+default = ["simd", "hardware-acceleration", "parallel", "crypto-erase", "secure-erase", "trim-support"]
+simd = []
+hardware-acceleration = []
+parallel = []
+debug-mode = []
+crypto-erase = []
+secure-erase = []
+trim-support = []
+controller-plugins = []
+hardware-offload = []
+benchmarks = ["dep:criterion"]
+
+# Optimization profiles
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# Performance-focused release profile
+[profile.performance]
+inherits = "release"
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = false
+
+# Development profile with some optimizations
+[profile.dev]
+opt-level = 1
+debug = true
+strip = false
+
+# Build configuration
+[build-dependencies]
+pyo3-build-config = "0.20"
+
+[dev-dependencies]
+tempfile = "3.8"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "engine_benchmarks"
+harness = false
+required-features = ["benchmarks"]
+
+# Metadata for Python packaging
+[tool.maturin]
+python-source = "python"
+module-name = "purgeproof_engine"
+strip = true
+compatibility = "manylinux2014"
+
+# Documentation
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
