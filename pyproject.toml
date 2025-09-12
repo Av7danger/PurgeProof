@@ -2,6 +2,10 @@
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+include = ["purgeproof*"]
+exclude = ["tests*", "engine*", "config*", "samples*"]
+
 [project]
 name = "purgeproof"
 version = "2.1.0"
@@ -11,9 +15,9 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.8"
+license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: System Administrators",
@@ -25,7 +29,6 @@ dependencies = [
     "cryptography>=3.4",
     "pyyaml>=5.4",
     "click>=8.0",
-    "tkinter",
     "tqdm>=4.60.0",
     "colorama>=0.4.4",
     "psutil>=5.8.0",
