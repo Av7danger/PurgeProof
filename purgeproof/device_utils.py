@@ -386,6 +386,91 @@ class DeviceEnumerator:
             logger.error(f"Windows device analysis failed for {device_path}: {e}")
             return None
     
+    async def _analyze_windows_device_basic(self, device_path: str) -> Optional[DeviceCapabilities]:
+        """Basic Windows device analysis without WMI."""
+        try:
+            import win32file
+            import win32api
+            
+            # Try to get basic disk information
+            drive_letter = device_path.replace('\\\\.\\', '').replace(':', '')
+            drive_path = f"{drive_letter}:\\"
+            
+            try:
+                # Get drive information
+                total_bytes, free_bytes = win32api.GetDiskFreeSpace(drive_path)[:2]
+                size_bytes = total_bytes
+            except:
+                # Fallback to a default size
+                size_bytes = 0
+            
+            # Create basic device capabilities
+            return DeviceCapabilities(
+                path=device_path,
+                device_type=DeviceType.SSD,  # Default assumption
+                interface_type=InterfaceType.SATA,  # Default assumption
+                size_bytes=size_bytes,
+                sector_size=512,
+                model=f"Windows Drive {drive_letter}",
+                serial=f"WIN_{drive_letter}_{int(time.time())}",
+                firmware_version="Unknown",
+                max_read_speed_mbps=100.0,
+                max_write_speed_mbps=100.0,
+                random_iops=1000,
+                latency_ms=10.0,
+                queue_depth=32,
+                supports_crypto_erase=False,
+                supports_secure_erase=False,
+                supports_enhanced_secure_erase=False,
+                supports_nvme_sanitize=False,
+                supports_trim=True,
+                supports_write_zeroes=True,
+                is_encrypted=False,
+                encryption_type=EncryptionType.NONE,
+                encryption_algorithm=None,
+                secure_erase_time_estimate=60,
+                crypto_erase_time_estimate=5,
+                overwrite_time_estimate=120,
+                platform_specific={'basic_windows': True}
+            )
+            
+        except ImportError:
+            # Win32 modules not available, create a very basic entry
+            drive_letter = device_path.replace('\\\\.\\', '').replace(':', '')
+            
+            return DeviceCapabilities(
+                path=device_path,
+                device_type=DeviceType.SSD,
+                interface_type=InterfaceType.SATA,
+                size_bytes=0,  # Unknown size
+                sector_size=512,
+                model=f"Windows Drive {drive_letter}",
+                serial=f"WIN_{drive_letter}_BASIC",
+                firmware_version="Unknown",
+                max_read_speed_mbps=100.0,
+                max_write_speed_mbps=100.0,
+                random_iops=1000,
+                latency_ms=10.0,
+                queue_depth=32,
+                supports_crypto_erase=False,
+                supports_secure_erase=False,
+                supports_enhanced_secure_erase=False,
+                supports_nvme_sanitize=False,
+                supports_trim=False,
+                supports_write_zeroes=True,
+                is_encrypted=False,
+                encryption_type=EncryptionType.NONE,
+                encryption_algorithm=None,
+                secure_erase_time_estimate=60,
+                crypto_erase_time_estimate=5,
+                overwrite_time_estimate=120,
+                platform_specific={'basic_fallback': True}
+            )
+            
+        except Exception as e:
+            logger.error(f"Basic Windows device analysis failed for {device_path}: {e}")
+            return None
+    
     async def _analyze_linux_device(self, device_path: str, sys_dir: Path) -> Optional[DeviceCapabilities]:
         """Analyze Linux device using sysfs information."""
         try:

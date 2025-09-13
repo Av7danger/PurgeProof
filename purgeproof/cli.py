@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from purgeproof import (
-        scan_devices, sanitize, get_stats, get_orchestrator,
+        async_device_scan, sanitize, get_stats, get_orchestrator,
         DeviceCapabilities, SanitizationMethod, ComplianceLevel, SecurityObjective
     )
     from purgeproof.compliance import get_compliance_framework, ComplianceStandard
@@ -95,7 +95,7 @@ class PurgeProofCLI:
         print("Scanning for storage devices...")
         
         try:
-            devices = scan_devices()
+            devices = await async_device_scan()
             
             if not devices:
                 print("No storage devices found.")
@@ -140,7 +140,7 @@ class PurgeProofCLI:
         device_path = args.device
         
         try:
-            devices = scan_devices()
+            devices = await async_device_scan()
             device = next((d for d in devices if d.path == device_path), None)
             
             if not device:
@@ -224,7 +224,7 @@ class PurgeProofCLI:
         device_path = args.device
         
         try:
-            devices = scan_devices()
+            devices = await async_device_scan()
             device = next((d for d in devices if d.path == device_path), None)
             
             if not device:

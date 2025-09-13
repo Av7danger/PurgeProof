@@ -114,10 +114,29 @@ def quick_device_scan() -> List[_DeviceCapabilities]:
     """
     import asyncio
     
-    async def _scan():
-        return await enumerate_devices()
+    try:
+        # Check if we're already in an event loop
+        loop = asyncio.get_running_loop()
+        # If we're in a loop, we can't use asyncio.run()
+        # This is a synchronous function, so we can't await
+        # Return empty list and log warning
+        logger.warning("quick_device_scan called from within async context - use async version instead")
+        return []
+    except RuntimeError:
+        # No running loop, safe to use asyncio.run()
+        async def _scan():
+            return await enumerate_devices()
+        
+        return asyncio.run(_scan())
+
+async def async_device_scan() -> List[_DeviceCapabilities]:
+    """
+    Async version of device scan for use in async contexts.
     
-    return asyncio.run(_scan())
+    Returns:
+        List of device capabilities
+    """
+    return await enumerate_devices()
 
 def recommend_method(device_path: str, 
                     compliance: str = "STANDARD",
@@ -245,7 +264,7 @@ __all__ = [
     'get_orchestrator', 'shutdown_orchestrator',
     
     # Convenience functions
-    'quick_device_scan', 'recommend_method', 'sanitize_device',
+    'quick_device_scan', 'async_device_scan', 'recommend_method', 'sanitize_device',
     'get_orchestrator_stats', 'list_active_jobs', 'cleanup',
     
     # Aliases
