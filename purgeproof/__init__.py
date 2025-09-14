@@ -55,6 +55,18 @@ except ImportError:
     ffi_bindings = None
     NATIVE_ENGINE_AVAILABLE = False
 
+# Compliance and certification (optional)
+try:
+    from .compliance import get_compliance_framework, ComplianceReport
+    from .certification import (
+        get_certification_engine, generate_sanitization_certificate,
+        generate_audit_certificate, ComplianceCertificate,
+        CertificateType, SignatureAlgorithm
+    )
+    COMPLIANCE_AVAILABLE = True
+except ImportError:
+    COMPLIANCE_AVAILABLE = False
+
 # Package metadata
 __version__ = "2.1.0"
 __author__ = "PurgeProof Development Team"
@@ -89,6 +101,7 @@ def get_version_info() -> Dict[str, Any]:
         'description': __description__,
         'native_engine_available': NATIVE_ENGINE_AVAILABLE,
         'ffi_bindings_loaded': ffi_bindings is not None,
+        'compliance_available': COMPLIANCE_AVAILABLE,
         'capabilities': {
             'device_enumeration': True,
             'method_selection': True,

@@ -6,7 +6,6 @@ authors = ["PurgeProof Development Team"]
 description = "High-performance hybrid engine for enterprise data sanitization with NIST SP 800-88 compliance"
 license = "MIT"
 repository = "https://github.com/Av7danger/PurgeProof"
-readme = "README.md"
 keywords = ["security", "data-sanitization", "cryptography", "performance", "enterprise"]
 categories = ["cryptography", "hardware-support", "command-line-utilities"]
 
@@ -80,7 +79,7 @@ secure-erase = []
 trim-support = []
 controller-plugins = []
 hardware-offload = []
-benchmarks = ["dep:criterion"]
+benchmarks = []
 
 # Optimization profiles
 [profile.release]
@@ -113,18 +112,6 @@ pyo3-build-config = "0.20"
 [dev-dependencies]
 tempfile = "3.8"
 criterion = { version = "0.5", features = ["html_reports"] }
-
-[[bench]]
-name = "engine_benchmarks"
-harness = false
-required-features = ["benchmarks"]
-
-# Metadata for Python packaging
-[tool.maturin]
-python-source = "python"
-module-name = "purgeproof_engine"
-strip = true
-compatibility = "manylinux2014"
 
 # Documentation
 [package.metadata.docs.rs]

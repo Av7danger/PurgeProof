@@ -19,7 +19,19 @@ import uuid
 from .device_utils import DeviceCapabilities, DeviceType
 from .decision_engine import SanitizationMethod, ComplianceLevel
 
+# Import certification module for digital signatures
 logger = logging.getLogger(__name__)
+
+try:
+    from .certification import (
+        generate_sanitization_certificate, 
+        generate_audit_certificate,
+        ComplianceCertificate
+    )
+    CERTIFICATION_AVAILABLE = True
+except ImportError:
+    logger.warning("Certification module not available - digital signatures disabled")
+    CERTIFICATION_AVAILABLE = False
 
 class ComplianceStandard(Enum):
     """Supported compliance standards."""
@@ -139,6 +151,9 @@ class ComplianceReport:
     recommendations: List[str]
     audit_trail: List[AuditEvent]
     metadata: Dict[str, Any] = field(default_factory=dict)
+    # Digital certification support
+    digital_certificate: Optional['ComplianceCertificate'] = None
+    certificate_enabled: bool = field(default=True)
     
     def __post_init__(self):
         if not self.report_id:
@@ -226,9 +241,28 @@ class ComplianceFramework:
                 'framework_version': '2.1.0',
                 'validation_timestamp': datetime.now(timezone.utc).isoformat(),
                 'automated': True,
-            }
+            },
+            certificate_enabled=True
         )
         
+        # Generate digital certificate if available
+        if CERTIFICATION_AVAILABLE and report.certificate_enabled:
+            try:
+                # Simulate sanitization completion data for certificate
+                certificate = generate_sanitization_certificate(
+                    device_path=device.path,
+                    method=method.name,
+                    compliance_level=compliance_level.name,
+                    verification_passed=(overall_status == ValidationStatus.COMPLIANT),
+                    duration_minutes=0.0,  # Will be updated during actual sanitization
+                    bytes_processed=device.size_bytes
+                )
+                report.digital_certificate = certificate
+                logger.info(f"Generated digital certificate {certificate.certificate_id} for compliance report")
+            except Exception as e:
+                logger.warning(f"Failed to generate digital certificate: {e}")
+                report.metadata['certificate_error'] = str(e)
+
         logger.info(f"Compliance validation complete: {overall_status.name}")
         return report
     
@@ -714,6 +748,16 @@ class ComplianceFramework:
             raise TypeError(f"Object {obj} is not JSON serializable")
         
         report_dict = asdict(report)
+        
+        # Handle digital certificate serialization
+        if report.digital_certificate and CERTIFICATION_AVAILABLE:
+            try:
+                from .certification import asdict as cert_asdict
+                report_dict['digital_certificate'] = asdict(report.digital_certificate)
+            except Exception as e:
+                logger.warning(f"Failed to serialize certificate: {e}")
+                report_dict['digital_certificate'] = None
+        
         return json.dumps(report_dict, indent=2, default=serialize_datetime)
     
     def _export_html_report(self, report: ComplianceReport) -> str:
